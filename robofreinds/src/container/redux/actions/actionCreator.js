@@ -18,8 +18,11 @@ export const requestRobots=(dispatch)=>()=>{
 	try{
 		fetch('https://jsonplaceholder.typicode.com/users').then(
 			res=>res.json()).then(users=>dispatch({type:REQUEST_SUCCESS,payload:users}))
+		return true;
 	}catch(err){
 		dispatch({type:REQUEST_FAILED,payload:err});
+
 	}
+
 		
 }

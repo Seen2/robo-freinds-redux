@@ -20,7 +20,7 @@ const mapDispatchToProps=(dispatch)=>({
 class App extends React.Component{
 
 	constructor(){
-		super()
+		super();
 		this.state={
 			filteredRobots:[],
 		}
@@ -29,21 +29,20 @@ class App extends React.Component{
 	onChangeSearch=event=>{
 		let {robots}=this.props.response;
 		this.props.onChangeSearch(event);
-		let filteredRobots=this.state.filteredRobots;
-
-		filteredRobots=robots.filter(robot=>
+		let filteredRobots=robots.filter(robot=>
 			robot.name.toLowerCase().includes((this.props.query ||'').toLowerCase())
 		);
-		this.props.response.robots=filteredRobots;
-	}
-	componentDidMount(){
-        let {isPending,robots}=this.props.response;
-        (isPending)?this.props.onRequest():this.setState({filteredRobots:robots});;
-	}
-
+        this.setState({filteredRobots});
+	};
+	componentDidMount =async ()=>{
+		let {isPending}=this.props.response;
+		this.props.onRequest();
+	};
+	
 
 	render(){
-        let {robots,isPending}=this.props.response;
+		let {isPending}=this.props.response;
+
 		return(
 			<div >
 				<div className="f3 tc" >
@@ -52,8 +51,8 @@ class App extends React.Component{
 				</div>
 				<div>
 					<Scroll>
-						{(isPending)?<h1>Loading</h1>:<CardList robots={robots} />}
-                    </Scroll>
+						{(isPending)?<h1 className="f1 tc">Loading</h1>:<CardList robots={this.state.filteredRobots} />}
+					</Scroll>
 				</div>
 			</div>
 		);
